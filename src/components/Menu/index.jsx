@@ -35,14 +35,11 @@ export default function Menu(props) {
     }
 
     const registerEmployeeApi = async () => {
-      const response = await fetch('https://back-fun.onrender.com/auth/register', {
+      const response = await fetch('https://back-fun.onrender.com/users/register', {
         method: 'POST',
         headers: httpHeadersFactory(),
         body: JSON.stringify(payload)
       });
-
-      const data = response.json();
-      console.log(data)
 
       if (response.status !== 201) {
         setShowP(true)
@@ -51,14 +48,15 @@ export default function Menu(props) {
         }, 4000)
       } else {
         setNewEmployees(payload)
+
+        setRegisterEmail('')
+        setRegisterName('')
+        setRegisterPassword('')
+        setRegisterRole('user')
       }
     }
 
     registerEmployeeApi();
-    setRegisterEmail('')
-    setRegisterName('')
-    setRegisterPassword('')
-    setRegisterRole('user')
     setLoadLogin(false)
   }
 
