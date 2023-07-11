@@ -1,22 +1,25 @@
-import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as FontsIcon from '@fortawesome/free-solid-svg-icons';
 import profileDefault from '../../assets/images/profile.png'
 
 import Botao from '../Botao';
 import style from './employee.module.scss';
+import { FormEvent } from 'react';
 
-export default function Employee(props) {
+interface EmployeeProps {
+  nome: string;
+  role: string;
+  email: string;
+}
 
-  const [dialog, setDialog] = useState(false);
+export default function Employee(props: EmployeeProps) {
 
   const {
-    id,
     nome,
     role,
     email } = props
 
-  const editEmployee = (event) => {
+  const editEmployee = (event: FormEvent) => {
     event.preventDefault();
   }
 

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Home from "../views/Home/index.jsx";
-import Login from "../views/Login/index.jsx"
+import Home from "../views/Home/index.js";
+import Login from "../views/Login/index.js"
 
 
 export default function AppRouter() {

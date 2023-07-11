@@ -2,11 +2,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as FontsIcon from '@fortawesome/free-solid-svg-icons';
 
 import style from './input.module.scss';
+import { ChangeEvent, ReactNode } from 'react';
 
-export default function Input(props) {
+interface InputProps {
+  id?: string;
+  label?: string;
+  icon?: ReactNode;
+  placeholder?: string;
+  required?: boolean;
+  type?: string;
+  status?: boolean;
+  aoAlterado: (valor: string) => void;
+  valor?: string;
+}
+
+export default function Input(props: InputProps) {
 
   const {
-    id,
     label = 'email',
     icon = <FontAwesomeIcon icon={FontsIcon.faEnvelope}/>,
     placeholder,
@@ -17,7 +29,7 @@ export default function Input(props) {
     valor
   } = props
 
-  const aoDigitado = (event) => {
+  const aoDigitado = (event: ChangeEvent<HTMLInputElement>) => {
     aoAlterado(event.target.value)
   }
 

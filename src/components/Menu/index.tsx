@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { httpHeadersFactory } from '../../factory/http.factory'
@@ -8,8 +8,21 @@ import Input from '../Input'
 import Botao from '../Botao'
 import Option from '../Options';
 
+export interface Payload {
+  email: string;
+  name: string;
+  role?: string;
+  id: string;
+  password: string;
+  confirmPassword: string
+}
 
-export default function Menu(props) {
+interface MenuProps {
+  setNewEmployees: (payload: Payload) => void;
+}
+
+
+export default function Menu(props: MenuProps) {
 
   const { setNewEmployees } = props;
 
@@ -21,11 +34,11 @@ export default function Menu(props) {
   const [showP, setShowP] = useState(false);
 
 
-  async function registerEmploye(event) {
+  async function registerEmploye(event: FormEvent) {
     event.preventDefault();
     setLoadLogin(true)
 
-    const payload = {
+    const payload: Payload = {
       id: uuidv4(),
       name: registerName,
       email: registerEmail,
