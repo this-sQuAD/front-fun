@@ -3,7 +3,7 @@ import Botao from '../Botao';
 import style from './formulario.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as FontsIcon from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Form() {
@@ -13,7 +13,7 @@ export default function Form() {
   const [showP, setShowP] = useState(false);
   const [loadLogin, setLoadLogin] = useState(false);
 
-  async function authLogin(event) {
+  async function authLogin(event: FormEvent) {
     setLoadLogin(true)
     event.preventDefault();
     const payload = {

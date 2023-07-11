@@ -4,31 +4,38 @@ import Menu from '../../components/Menu';
 import Lista from '../../components/Lista'
 import { UsersHttpHelper } from '../../helpers/usersHttp';
 
+export interface Employee {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  createdAt: Date;
+}
+
 export default function Home() {
-  const [employess, setEmployees] = useState([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
 
   const populateUsers = async () => {
     const result = await UsersHttpHelper.getAll();
-    setEmployees(result)
+    setEmployees(result as Employee[])
   }
 
   useEffect(() => {
     populateUsers()
   }, [])
 
-  function aoRegistrarEmployee(employee) {
-    console.log('EMPLOYEE EVENT REGISTER: ', employee)
-    setEmployees([...employess, employee])
+  function aoRegistrarEmployee() {
+    populateUsers()
   }
 
   return (
     <div>
       <Header />
       <Menu
-        setNewEmployees={employee => aoRegistrarEmployee(employee)}
+        setNewEmployees={() => aoRegistrarEmployee()}
       />
       <Lista
-        employess={employess}
+        employees={employees}
       />
     </div>
   )

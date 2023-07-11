@@ -1,6 +1,20 @@
+import { ChangeEvent } from 'react';
 import style from './option.module.scss';
 
-export default function Option(props) {
+interface roleOptions {
+  valor: string;
+  label: string;
+}
+
+interface OptionProps {
+  options: roleOptions[];
+  idSelect: string;
+  aoAlterado: (event: string) => void;
+  required?: boolean;
+  valor: string;
+}
+
+export default function Option(props: OptionProps) {
 
   const {
     options = [{
@@ -8,11 +22,10 @@ export default function Option(props) {
       label: 'Selecione',
     }],
     idSelect,
-    valor,
     aoAlterado
   } = props
 
-  const aoMudarOption = (event) => {
+  const aoMudarOption = (event: ChangeEvent<HTMLSelectElement>) => {
     aoAlterado(event.target.value)
   }
 
