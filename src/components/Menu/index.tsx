@@ -54,7 +54,6 @@ export default function Menu(props: MenuProps) {
     }
 
     const registerEmployeeApi = async () => {
-      // const response = await fetch('https://back-fun.onrender.com/users/register', {
         const response = await UsersHttpHelper.registerEmployee(payload) as RegisterResponse;
 
       if (response.status !== 201) {

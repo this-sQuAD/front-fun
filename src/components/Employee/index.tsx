@@ -26,8 +26,8 @@ export default function Employee(props: EmployeeProps) {
   }
 
   function handleDeleteEmployee() {
+    // TODO to change strategy to make a delete feat
     console.log(id);
-    
   }
 
   return (

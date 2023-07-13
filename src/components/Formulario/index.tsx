@@ -22,13 +22,9 @@ export default function Form() {
       password: passwordEmployee
     }
 
-    // const response  = await fetch('https://back-fun.onrender.com/auth/login', {
       const response = await api.post('/auth/login', {
       ...payload
     });
-
-    console.log(response);
-    
 
     if(response.status !== 200) {
       setShowP(true)
