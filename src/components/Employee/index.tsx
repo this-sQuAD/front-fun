@@ -7,6 +7,7 @@ import style from './employee.module.scss';
 import { FormEvent } from 'react';
 
 interface EmployeeProps {
+  id: string;
   nome: string;
   role: string;
   email: string;
@@ -15,12 +16,18 @@ interface EmployeeProps {
 export default function Employee(props: EmployeeProps) {
 
   const {
+    id,
     nome,
     role,
     email } = props
 
   const editEmployee = (event: FormEvent) => {
     event.preventDefault();
+  }
+
+  function handleDeleteEmployee() {
+    // TODO to change strategy to make a delete feat
+    console.log(id);
   }
 
   return (
@@ -37,7 +44,7 @@ export default function Employee(props: EmployeeProps) {
               icon={<FontAwesomeIcon icon={FontsIcon.faPencil} />}
             />
             <Botao
-              children=''
+              onDeleteEmployee={handleDeleteEmployee}
               icon={<FontAwesomeIcon icon={FontsIcon.faTrash} color='' />}
             />
           </div>

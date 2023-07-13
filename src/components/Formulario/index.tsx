@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as FontsIcon from '@fortawesome/free-solid-svg-icons';
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../helpers/api';
 
 export default function Form() {
   const navigate = useNavigate();
@@ -21,16 +22,9 @@ export default function Form() {
       password: passwordEmployee
     }
 
-    const response  = await fetch('https://back-fun.onrender.com/auth/login', {
-      method: 'POST',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
+      const response = await api.post('/auth/login', {
+      ...payload
     });
-
-    const data = await response.json();
 
     if(response.status !== 200) {
       setShowP(true)
@@ -38,7 +32,7 @@ export default function Form() {
         setShowP(false)
       }, 4000);
     } else {
-      localStorage.setItem('token', data.token)
+      localStorage.setItem('token', response.data.token)
       navigate('/home')
     }
 
