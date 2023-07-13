@@ -8,8 +8,9 @@ type InputType = 'button' | 'submit' | 'reset';
 interface BotaoProps {
   icon: ReactNode;
   type?: InputType;
-  children: string;
+  children?: string;
   disabled?: boolean;
+  onDeleteEmployee?: () => void;
 }
 
 export default function Botao(props: BotaoProps) {
@@ -18,7 +19,8 @@ export default function Botao(props: BotaoProps) {
     icon = <FontAwesomeIcon icon={FontsIcon.faSignIn}/>,
     type,
     children,
-    disabled  
+    disabled,
+    onDeleteEmployee
   } = props
 
   return (
@@ -26,6 +28,7 @@ export default function Botao(props: BotaoProps) {
       className={style.btnStyle}
       type={type}
       disabled={disabled}
+      onClick={onDeleteEmployee}
       >
       <span>{icon}</span>
       {children}

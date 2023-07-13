@@ -1,17 +1,16 @@
 import Employee from '../Employee';
 import style from './lista.module.scss';
-import { v4 as uuidv4 } from 'uuid';
 
-interface employeesProps {
+interface EmployeesProps {
   createdAt: Date;
   email: string;
   name: string;
   role: string;
-  id: number;
+  _id: string;
 }
 
 interface ListaProps {
-  employees: employeesProps[]
+  employees: EmployeesProps[]
 }
 
 export default function Lista({employees = []}: ListaProps) {
@@ -20,11 +19,12 @@ export default function Lista({employees = []}: ListaProps) {
     return (<section className={style.lista}>
       <h3>Lista de Funcionários</h3>
       <div className={style.lista__employees}>
-        {employees.map(employe => <Employee
-          key={uuidv4()}
-          nome={employe.name}
-          role={employe.role}
-          email={employe.email}
+        {employees.map(employee => <Employee
+          key={employee._id}
+          id={employee._id}
+          nome={employee.name}
+          role={employee.role}
+          email={employee.email}
         />)}
       </div>
     </section>)

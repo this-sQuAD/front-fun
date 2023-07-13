@@ -1,12 +1,14 @@
 import { FormEvent, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { httpHeadersFactory } from '../../factory/http.factory'
 import * as FontsIcon from '@fortawesome/free-solid-svg-icons';
-import style from './menu.module.scss';
+
 import Input from '../Input'
 import Botao from '../Botao'
 import Option from '../Options';
+
+import style from './menu.module.scss';
+import { UsersHttpHelper } from '../../helpers/usersHttp';
 
 export interface Payload {
   email: string;
@@ -19,6 +21,10 @@ export interface Payload {
 
 interface MenuProps {
   setNewEmployees: (payload: Payload) => void;
+}
+
+interface RegisterResponse {
+  status: number;
 }
 
 
@@ -48,11 +54,8 @@ export default function Menu(props: MenuProps) {
     }
 
     const registerEmployeeApi = async () => {
-      const response = await fetch('https://back-fun.onrender.com/users/register', {
-        method: 'POST',
-        headers: httpHeadersFactory(),
-        body: JSON.stringify(payload)
-      });
+      // const response = await fetch('https://back-fun.onrender.com/users/register', {
+        const response = await UsersHttpHelper.registerEmployee(payload) as RegisterResponse;
 
       if (response.status !== 201) {
         setShowP(true)
