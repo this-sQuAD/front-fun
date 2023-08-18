@@ -17,13 +17,12 @@ interface EmployeeProps {
 export default function Employee(props: EmployeeProps) {
 
   const {
-    id,
     nome,
     role,
     email
   } = props
 
-  const { deleteEmployees } = useContext(EmployeesContext)
+  const { handleOpenDeleteModal } = useContext(EmployeesContext)
   
 
   const editEmployee = (event: FormEvent) => {
@@ -31,10 +30,7 @@ export default function Employee(props: EmployeeProps) {
   }
 
   async function handleDeleteEmployee() {
-    const confirmDelete = confirm('Tem certeza que deseja excluir o funcionário?')
-    if(confirmDelete) {
-      deleteEmployees(id)
-    }
+    handleOpenDeleteModal(props)
   }
 
   return (

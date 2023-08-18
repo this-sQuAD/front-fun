@@ -1,7 +1,11 @@
 import { createContext, useEffect, useState } from 'react';
+import Modal from 'react-modal';
+
 import Header from '../../components/Header';
 import Menu from '../../components/Menu';
 import Lista from '../../components/Lista'
+import { DeleteModal } from '../../components/DeleteModal';
+
 import { UsersHttpHelper } from '../../helpers/usersHttp';
 
 export interface Employee {
@@ -16,15 +20,27 @@ interface UserResponse {
   data: Employee[];
 }
 
+export interface EmployeeToDelete {
+  id: string;
+  nome: string;
+  role: string;
+  email: string;
+}
+
 interface EmployeesContextType {
   employees: Employee[];
+  handleOpenDeleteModal: (employee: EmployeeToDelete) => void;
   deleteEmployees: (id: string) => void;
 }
 
 export const EmployeesContext = createContext({} as EmployeesContextType);
 
+Modal.setAppElement('#root');
+
 export default function Home() {
   const [employees, setEmployees] = useState<Employee[]>([]);
+  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
+  const [employeeToDelete, setEmployeeToDelete] = useState<EmployeeToDelete | null>(null);
 
   const populateUsers = async () => {
     const result = await UsersHttpHelper.getAll() as UserResponse;
@@ -40,10 +56,23 @@ export default function Home() {
   }
 
   async function deleteEmployees(id: string) {
-    console.log("teste");
-    
-    await UsersHttpHelper.deleteEmployee(id);
-    populateUsers()
+    try {
+      await UsersHttpHelper.deleteEmployee(id);
+      setEmployeeToDelete(null)
+      populateUsers()
+      
+    } catch (error: any) {
+      alert(error.response.data.message);
+    }
+  }
+
+  function handleOpenDeleteModal(employee: EmployeeToDelete) {
+    setEmployeeToDelete(employee)
+    setDeleteModalIsOpen(true)
+  }
+
+  function handleCloseModal() {
+    setDeleteModalIsOpen(false)
   }
 
   return (
@@ -52,9 +81,15 @@ export default function Home() {
       <EmployeesContext.Provider
         value={{
           employees,
+          handleOpenDeleteModal,
           deleteEmployees
         }}
       >
+        <DeleteModal 
+          deleteModalIsOpen={deleteModalIsOpen}
+          employeeToDelete={employeeToDelete}
+          closeDeleteModal={handleCloseModal}
+        />
         <Menu
           setNewEmployees={() => aoRegistrarEmployee()}
         />
@@ -62,6 +97,7 @@ export default function Home() {
           employees={employees}
           />
       </EmployeesContext.Provider>
+      
     </div>
   )
 }
