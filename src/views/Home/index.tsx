@@ -1,5 +1,8 @@
 import { createContext, useEffect, useState } from 'react';
 import Modal from 'react-modal';
+import { sucessToast, failedToast } from '../../helpers/toast'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Header from '../../components/Header';
 import Menu from '../../components/Menu';
@@ -53,6 +56,7 @@ export default function Home() {
 
   function aoRegistrarEmployee() {
     populateUsers()
+    sucessToast("Usuário registrado com sucesso!")
   }
 
   async function deleteEmployees(id: string) {
@@ -60,9 +64,10 @@ export default function Home() {
       await UsersHttpHelper.deleteEmployee(id);
       setEmployeeToDelete(null)
       populateUsers()
+      sucessToast("Usuário deletado com sucesso!")
       
     } catch (error: any) {
-      alert(error.response.data.message);
+      failedToast(error.response.data.message)
     }
   }
 
@@ -97,6 +102,11 @@ export default function Home() {
           employees={employees}
           />
       </EmployeesContext.Provider>
+      <ToastContainer 
+        rtl={false}
+        pauseOnFocusLoss
+        newestOnTop={false}    
+      />
       
     </div>
   )
