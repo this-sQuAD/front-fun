@@ -4,7 +4,8 @@ import profileDefault from '../../assets/images/profile.png'
 
 import Botao from '../Botao';
 import style from './employee.module.scss';
-import { FormEvent } from 'react';
+import { FormEvent, useContext } from 'react';
+import { EmployeesContext } from '../../views/Home';
 
 interface EmployeeProps {
   id: string;
@@ -19,15 +20,21 @@ export default function Employee(props: EmployeeProps) {
     id,
     nome,
     role,
-    email } = props
+    email
+  } = props
+
+  const { deleteEmployees } = useContext(EmployeesContext)
+  
 
   const editEmployee = (event: FormEvent) => {
     event.preventDefault();
   }
 
-  function handleDeleteEmployee() {
-    // TODO to change strategy to make a delete feat
-    console.log(id);
+  async function handleDeleteEmployee() {
+    const confirmDelete = confirm('Tem certeza que deseja excluir o funcionário?')
+    if(confirmDelete) {
+      deleteEmployees(id)
+    }
   }
 
   return (

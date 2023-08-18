@@ -18,4 +18,12 @@ export class UsersHttpHelper {
       .catch(reject)
     })
   }
+
+  static deleteEmployee(id: string) {
+    return new Promise((resolve, reject) => {
+      api.delete(`/users/${id}`, { headers: httpHeadersFactory() })
+      .then(resolve)
+      .catch(reject)
+    })
+  }
 }

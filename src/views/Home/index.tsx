@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import Menu from '../../components/Menu';
 import Lista from '../../components/Lista'
@@ -16,6 +16,13 @@ interface UserResponse {
   data: Employee[];
 }
 
+interface EmployeesContextType {
+  employees: Employee[];
+  deleteEmployees: (id: string) => void;
+}
+
+export const EmployeesContext = createContext({} as EmployeesContextType);
+
 export default function Home() {
   const [employees, setEmployees] = useState<Employee[]>([]);
 
@@ -32,15 +39,29 @@ export default function Home() {
     populateUsers()
   }
 
+  async function deleteEmployees(id: string) {
+    console.log("teste");
+    
+    await UsersHttpHelper.deleteEmployee(id);
+    populateUsers()
+  }
+
   return (
     <div>
       <Header />
-      <Menu
-        setNewEmployees={() => aoRegistrarEmployee()}
-      />
-      <Lista
-        employees={employees}
-      />
+      <EmployeesContext.Provider
+        value={{
+          employees,
+          deleteEmployees
+        }}
+      >
+        <Menu
+          setNewEmployees={() => aoRegistrarEmployee()}
+        />
+        <Lista
+          employees={employees}
+          />
+      </EmployeesContext.Provider>
     </div>
   )
 }
