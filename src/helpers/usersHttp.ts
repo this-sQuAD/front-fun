@@ -26,4 +26,12 @@ export class UsersHttpHelper {
       .catch(reject)
     })
   }
+
+  static updateEmployee(id: string, payload: Payload) {
+    return new Promise((resolve, reject) => {
+      api.put(`/users/${id}`, payload, { headers: httpHeadersFactory() })
+      .then(resolve)
+      .catch(reject)
+    })
+  }
 }

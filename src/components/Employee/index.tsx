@@ -4,7 +4,7 @@ import profileDefault from '../../assets/images/profile.png'
 
 import Botao from '../Botao';
 import style from './employee.module.scss';
-import { FormEvent, useContext } from 'react';
+import { useContext } from 'react';
 import { EmployeesContext } from '../../views/Home';
 
 interface EmployeeProps {
@@ -22,11 +22,11 @@ export default function Employee(props: EmployeeProps) {
     email
   } = props
 
-  const { handleOpenDeleteModal } = useContext(EmployeesContext)
+  const { fillFormToEditEmployee, handleOpenDeleteModal } = useContext(EmployeesContext)
   
 
-  const editEmployee = (event: FormEvent) => {
-    event.preventDefault();
+  function handleEditEmployee() {
+    fillFormToEditEmployee(props)
   }
 
   async function handleDeleteEmployee() {
@@ -35,24 +35,23 @@ export default function Employee(props: EmployeeProps) {
 
   return (
     <div className={style.employee}>
-      <form onSubmit={editEmployee}>
-        <section className={style.employee__content}>
-          <img src={profileDefault} alt="luffy de perfil" />
-          <h3>{nome}</h3>
-          <span>{email}</span>
-          <span>{role}</span>
-          <div className={style.employee__content__actions}>
-            <Botao
-              children='Editar'
-              icon={<FontAwesomeIcon icon={FontsIcon.faPencil} />}
-            />
-            <Botao
-              onDeleteEmployee={handleDeleteEmployee}
-              icon={<FontAwesomeIcon icon={FontsIcon.faTrash} color='' />}
-            />
-          </div>
-        </section>
-      </form>
+      <section className={style.employee__content}>
+        <img src={profileDefault} alt="luffy de perfil" />
+        <h3>{nome}</h3>
+        <span>{email}</span>
+        <span>{role}</span>
+        <div className={style.employee__content__actions}>
+          <Botao
+            children='Editar'
+            triggerFunction={handleEditEmployee}
+            icon={<FontAwesomeIcon icon={FontsIcon.faPencil} />}
+          />
+          <Botao
+            triggerFunction={handleDeleteEmployee}
+            icon={<FontAwesomeIcon icon={FontsIcon.faTrash} color='' />}
+          />
+        </div>
+      </section>
     </div>
   )
 }

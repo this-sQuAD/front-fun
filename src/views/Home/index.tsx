@@ -23,7 +23,7 @@ interface UserResponse {
   data: Employee[];
 }
 
-export interface EmployeeToDelete {
+export interface EmployeeToAction {
   id: string;
   nome: string;
   role: string;
@@ -32,8 +32,11 @@ export interface EmployeeToDelete {
 
 interface EmployeesContextType {
   employees: Employee[];
-  handleOpenDeleteModal: (employee: EmployeeToDelete) => void;
+  fillFormToEditEmployee: (employee: EmployeeToAction | null) => void;
+  employeeToEdit: EmployeeToAction | null;
+  handleOpenDeleteModal: (employee: EmployeeToAction) => void;
   deleteEmployees: (id: string) => void;
+  populateUsers: () => void;
 }
 
 export const EmployeesContext = createContext({} as EmployeesContextType);
@@ -43,7 +46,8 @@ Modal.setAppElement('#root');
 export default function Home() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
-  const [employeeToDelete, setEmployeeToDelete] = useState<EmployeeToDelete | null>(null);
+  const [employeeToDelete, setEmployeeToDelete] = useState<EmployeeToAction | null>(null);
+  const [employeeToEdit, setEmployeeToEdit] = useState<EmployeeToAction | null>(null);
 
   const populateUsers = async () => {
     const result = await UsersHttpHelper.getAll() as UserResponse;
@@ -59,6 +63,10 @@ export default function Home() {
     sucessToast("Usuário registrado com sucesso!")
   }
 
+  function fillFormToEditEmployee(employee: EmployeeToAction | null) {
+    setEmployeeToEdit(employee)
+  }
+
   async function deleteEmployees(id: string) {
     try {
       await UsersHttpHelper.deleteEmployee(id);
@@ -71,7 +79,7 @@ export default function Home() {
     }
   }
 
-  function handleOpenDeleteModal(employee: EmployeeToDelete) {
+  function handleOpenDeleteModal(employee: EmployeeToAction) {
     setEmployeeToDelete(employee)
     setDeleteModalIsOpen(true)
   }
@@ -86,8 +94,11 @@ export default function Home() {
       <EmployeesContext.Provider
         value={{
           employees,
+          employeeToEdit,
+          fillFormToEditEmployee,
           handleOpenDeleteModal,
-          deleteEmployees
+          deleteEmployees,
+          populateUsers
         }}
       >
         <DeleteModal 

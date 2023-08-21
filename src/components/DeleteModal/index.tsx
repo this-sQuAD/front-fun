@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import Modal from 'react-modal';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
-import { EmployeeToDelete, EmployeesContext } from '../../views/Home';
+import { EmployeeToAction, EmployeesContext } from '../../views/Home';
 
 import style from './deleteModal.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface ModalPropsType {
   // children: ReactNode;
   deleteModalIsOpen: boolean;
-  employeeToDelete: EmployeeToDelete | null;
+  employeeToDelete: EmployeeToAction | null;
   closeDeleteModal: () => void;
 }
 

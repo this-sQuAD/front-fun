@@ -10,7 +10,7 @@ interface BotaoProps {
   type?: InputType;
   children?: string;
   disabled?: boolean;
-  onDeleteEmployee?: () => void;
+  triggerFunction?: () => void;
 }
 
 export default function Botao(props: BotaoProps) {
@@ -20,7 +20,7 @@ export default function Botao(props: BotaoProps) {
     type,
     children,
     disabled,
-    onDeleteEmployee
+    triggerFunction
   } = props
 
   return (
@@ -28,7 +28,7 @@ export default function Botao(props: BotaoProps) {
       className={style.btnStyle}
       type={type}
       disabled={disabled}
-      onClick={onDeleteEmployee}
+      onClick={triggerFunction}
       >
       <span>{icon}</span>
       {children}
